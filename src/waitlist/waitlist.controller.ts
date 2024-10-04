@@ -1,7 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { WaitlistService } from './waitlist.service';
 import { EmailAddressDTO, WalletDTO } from './dto/waitlist.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Waitlist')
 @Controller('api/waitlist')
 export class WaitlistController {
   constructor(private waitlistService: WaitlistService) {}
