@@ -1,10 +1,17 @@
+import { HttpService } from '@nestjs/axios';
 import { EmailAddressDTO, WalletDTO } from './dto/waitlist.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { ConfigService } from '@nestjs/config';
+import axios from 'axios';
 
 @Injectable()
 export class WaitlistService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly httpService: HttpService,
+    private config: ConfigService,
+  ) {}
 
   async joinWaitListByEmailAddress({ email_address }: EmailAddressDTO) {
     try {
@@ -24,6 +31,23 @@ export class WaitlistService {
           email_address,
         },
       });
+
+      await axios.post(
+        'https://api.brevo.com/v3/contacts',
+        {
+          email: email_address,
+          emailBlacklisted: false,
+          smsBlacklisted: false,
+          updateEnabled: false,
+        },
+        {
+          headers: {
+            accept: 'application/json',
+            'content-type': 'application/json',
+            'api-key': this.config.get('BREVO_API_KEY'),
+          },
+        },
+      );
 
       return {
         seat: `#${new_email.id}`,
