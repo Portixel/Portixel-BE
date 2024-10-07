@@ -14,9 +14,10 @@ datasource db {
 }
 
 model WaitList {
-  id             Int      @id @default(autoincrement())
+  id             String   @id @default(cuid())
   wallet_address String?  @unique
-  email_address  String?  @unique
+  seat           Int      @default(autoincrement())
+  email_address  String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
