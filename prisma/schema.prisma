@@ -29,23 +29,10 @@ model User {
   wallet_address String?       @unique
   active         Boolean       @default(false)
   otp            String?
-  onboarding     Onboarding    @relation(fields: [onboardingId], references: [id])
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   onboardingId   Int
   integrations   Integration[]
-}
-
-model Onboarding {
-  id          Int         @id @default(autoincrement())
-  name        String
-  skill       String?
-  industry    String?
-  about       String
-  accountType AccountType
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  user        User[]
 }
 
 model Integration {
@@ -57,6 +44,11 @@ model Integration {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   userId    Int
+}
+
+model Template {
+  id           Int    @id @default(autoincrement())
+  template_key String
 }
 
 enum TypeOfLogin {
