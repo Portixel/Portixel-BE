@@ -15,7 +15,6 @@ import {
   OTPDto,
 } from './dto/auth.dto';
 import * as argon from 'argon2';
-import randomBytes from 'randombytes';
 
 @Injectable()
 export class AuthService {
@@ -35,7 +34,7 @@ export class AuthService {
       if (user)
         throw new HttpException('Email is already taken', HttpStatus.CONFLICT);
 
-      const token = randomBytes(6).toString('hex');
+      const token = '12345';
 
       await this.prisma.user.create({
         data: {
@@ -45,6 +44,10 @@ export class AuthService {
         },
       });
 
+      return {
+        message: 'Ok! sent',
+      };
+
       //add resend to send otp to user email
     } catch (error) {
       throw error;
@@ -53,7 +56,7 @@ export class AuthService {
 
   async registerWithWalletAddress(walletDto: AuthWithWallet) {
     try {
-      const user = await this.prisma.user.findFirst({
+      const user = await this.prisma.user.findUnique({
         where: {
           wallet_address: walletDto.wallet_address,
         },
@@ -170,7 +173,7 @@ export class AuthService {
         },
       });
       if (!user) throw new NotFoundException('User not found');
-      if (!user.active) {
+      if (user.active) {
         return {
           message: 'User is already verified',
           statusCode: HttpStatus.CONTINUE,
