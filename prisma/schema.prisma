@@ -23,6 +23,7 @@ model WaitList {
 
 model User {
   id             Int           @id @default(autoincrement())
+  name           String?
   email_address  String?       @unique
   password       String?
   authMethod     TypeOfLogin   @default(PLAIN)
@@ -31,7 +32,6 @@ model User {
   otp            String?
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
-  onboardingId   Int
   integrations   Integration[]
 }
 
