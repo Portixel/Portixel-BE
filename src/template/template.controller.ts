@@ -13,7 +13,9 @@ import { User } from '@prisma/client';
 import { GetUser } from 'src/auth/decorators/user.decorator';
 import { TemplateService } from 'src/template/template.service';
 import { TemplateDto } from './dto/template.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Template')
 @Controller('api/template')
 @UseGuards(AuthGuard('jwt'))
 export class TemplateController {
@@ -45,7 +47,7 @@ export class TemplateController {
     return await this.template.getSingleTemplate(templateId);
   }
 
-  @Get()
+  @Get('all')
   async getAllTemplates(@GetUser() { id }: User) {
     return this.template.getAllTemplates(id);
   }
