@@ -33,6 +33,7 @@ model User {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   integrations   Integration[]
+  templates      Template[]
 }
 
 model Integration {
@@ -49,6 +50,8 @@ model Integration {
 model Template {
   id           Int    @id @default(autoincrement())
   template_key String
+  user         User   @relation(fields: [userId], references: [id])
+  userId       Int
 }
 
 enum TypeOfLogin {
