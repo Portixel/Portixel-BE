@@ -14,10 +14,50 @@ datasource db {
 }
 
 model WaitList {
-  id             String   @id @default(cuid())
+  id             Int      @id @default(autoincrement())
   wallet_address String?  @unique
-  seat           Int      @default(autoincrement())
-  email_address  String?
+  email_address  String?  @unique
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+model User {
+  id             Int           @id @default(autoincrement())
+  name           String?
+  email_address  String?       @unique
+  password       String?
+  authMethod     TypeOfLogin   @default(PLAIN)
+  wallet_address String?       @unique
+  active         Boolean       @default(false)
+  otp            String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  integrations   Integration[]
+}
+
+model Integration {
+  id        Int       @id @default(autoincrement())
+  service   String // (e.g., GitHub, Figma)
+  user      User      @relation(fields: [userId], references: [id])
+  active    Boolean   @default(false)
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userId    Int
+}
+
+model Template {
+  id           Int    @id @default(autoincrement())
+  template_key String
+}
+
+enum TypeOfLogin {
+  WALLET
+  PLAIN
+  GOOGLE
+}
+
+enum AccountType {
+  INDIVIDUAL
+  AGENCY
 }
