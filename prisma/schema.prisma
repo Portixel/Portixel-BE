@@ -37,14 +37,24 @@ model User {
 }
 
 model Integration {
-  id        Int       @id @default(autoincrement())
-  service   String // (e.g., GitHub, Figma)
-  user      User      @relation(fields: [userId], references: [id])
-  active    Boolean   @default(false)
-  expiresAt DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  userId    Int
+  id               Int                @id @default(autoincrement())
+  type             IntegrationType
+  userId           Int
+  user             User               @relation(fields: [userId], references: [id])
+  active           Boolean            @default(false)
+  expiresAt        DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  FigmaIntegration FigmaIntegration[]
+}
+
+model FigmaIntegration {
+  id                Int         @id @default(autoincrement())
+  figmaTeamId       String?
+  figmaAccessToken  String?
+  figmaRefreshToken String?
+  intergation       Integration @relation(fields: [integrationId], references: [id])
+  integrationId     Int
 }
 
 model Template {
@@ -63,4 +73,9 @@ enum TypeOfLogin {
 enum AccountType {
   INDIVIDUAL
   AGENCY
+}
+
+enum IntegrationType {
+  FIGMA
+  GITHUB
 }
