@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { TemplateModule } from './template/template.module';
 import { IntegrationModule } from './integration/integration.module';
 import { UserModule } from './user/user.module';
+import { FigmaIntegrationModule } from './figma-integration/figma-integration.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from './user/user.module';
     TemplateModule,
     IntegrationModule,
     UserModule,
+    FigmaIntegrationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
