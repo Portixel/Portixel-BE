@@ -22,18 +22,19 @@ model WaitList {
 }
 
 model User {
-  id             Int           @id @default(autoincrement())
-  name           String?
-  email_address  String?       @unique
-  password       String?
-  authMethod     TypeOfLogin   @default(PLAIN)
-  wallet_address String?       @unique
-  active         Boolean       @default(false)
-  otp            String?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  integrations   Integration[]
-  templates      Template[]
+  id               Int               @id @default(autoincrement())
+  name             String?
+  email_address    String?           @unique
+  password         String?
+  authMethod       TypeOfLogin       @default(PLAIN)
+  wallet_address   String?           @unique
+  active           Boolean           @default(false)
+  otp              String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  integrations     Integration[]
+  templates        Template[]
+  FigmaIntegration FigmaIntegration?
 }
 
 model Integration {
@@ -45,7 +46,7 @@ model Integration {
   expiresAt        DateTime?
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
-  FigmaIntegration FigmaIntegration[]
+  figmaIntegration FigmaIntegration[]
 }
 
 model FigmaIntegration {
@@ -53,8 +54,11 @@ model FigmaIntegration {
   figmaTeamId       String?
   figmaAccessToken  String?
   figmaRefreshToken String?
-  intergation       Integration @relation(fields: [integrationId], references: [id])
+  figmaState        String?
+  integration       Integration @relation(fields: [integrationId], references: [id])
   integrationId     Int
+  user              User?       @relation(fields: [userId], references: [id]) // Ensure this is one-to-one
+  userId            Int?        @unique
 }
 
 model Template {
