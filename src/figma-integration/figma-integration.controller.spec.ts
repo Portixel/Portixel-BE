@@ -9,7 +9,9 @@ describe('FigmaIntegrationController', () => {
       controllers: [FigmaIntegrationController],
     }).compile();
 
-    controller = module.get<FigmaIntegrationController>(FigmaIntegrationController);
+    controller = module.get<FigmaIntegrationController>(
+      FigmaIntegrationController,
+    );
   });
 
   it('should be defined', () => {

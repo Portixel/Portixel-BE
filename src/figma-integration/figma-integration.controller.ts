@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { FigmaIntegrationService } from './figma-integration.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
@@ -22,5 +22,10 @@ export class FigmaIntegrationController {
   @Post('authenticate')
   async authenticateFigma(@GetUser() { id }: User, @Body() figmaDto: FigmaDto) {
     return await this.figma.authenticateFigma(id, figmaDto);
+  }
+
+  @Get('file/:key')
+  async getFigmaFile(@Param('key') key: string, @GetUser() { id }: User) {
+    return await this.figma.getFigmaFile(id, key);
   }
 }

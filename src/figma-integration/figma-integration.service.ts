@@ -105,4 +105,26 @@ export class FigmaIntegrationService {
       throw new HttpException(errorMessage, HttpStatus.BAD_REQUEST);
     }
   }
+
+  async getFigmaFile(id: number, key: string) {
+    const figma = await this.prisma.figmaIntegration.findFirst({
+      where: {
+        userId: id,
+      },
+    });
+    if (!figma)
+      throw new HttpException(
+        'Figma integration is not enabled for this user',
+        HttpStatus.FORBIDDEN,
+      );
+    const res = await axios.get(
+      `${this.config.get('FIGMA_API_URL')}/files/${key}`,
+      {
+        headers: {
+          Authorization: `Bearer ${figma.figmaAccessToken}`,
+        },
+      },
+    );
+    return res.data;
+  }
 }
