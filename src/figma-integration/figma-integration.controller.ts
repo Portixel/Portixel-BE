@@ -1,10 +1,19 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { FigmaIntegrationService } from './figma-integration.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/auth/decorators/user.decorator';
 import { User } from '@prisma/client';
-import { FigmaDto } from './dto/figma.dto';
+import { FigmaDto, UpdateFigmaDto } from './dto/figma.dto';
 
 @ApiTags('Figma Integration')
 @Controller('api/figma-integration')
@@ -27,5 +36,31 @@ export class FigmaIntegrationController {
   @Get('file/:key')
   async getFigmaFile(@Param('key') key: string, @GetUser() { id }: User) {
     return await this.figma.getFigmaFile(id, key);
+  }
+
+  @Get('project/:projectId')
+  async getFigmaProjectFiles(
+    @Param('projectId') projectId: string,
+    @GetUser() { id }: User,
+  ) {
+    return await this.figma.getFigmaFile(id, projectId);
+  }
+
+  @Get('user')
+  async getFigmaUser(@GetUser() { id }: User) {
+    return await this.figma.getFigmaUser(id);
+  }
+
+  @Patch('toggle')
+  async updateIntegration(
+    @GetUser() { id }: User,
+    @Body() activeDto: UpdateFigmaDto,
+  ) {
+    return await this.figma.updateIntegration(id, activeDto);
+  }
+
+  @Delete('')
+  async removeIntegration(@GetUser() { id }: User) {
+    return await this.figma.removeIntegration(id);
   }
 }
