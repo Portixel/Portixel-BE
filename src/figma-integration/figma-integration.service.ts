@@ -22,7 +22,6 @@ export class FigmaIntegrationService {
     const callback_url = this.config.get('CALLBACK_URL');
     const state_code = crypto.randomUUID();
     const url = `https://www.figma.com/oauth?client_id=${client_id}&redirect_uri=${callback_url}&scope=files:read,file_comments:write&state=${state_code}&response_type=code`;
-    console.log(state_code);
 
     await this.prisma.user.update({
       where: { id },

@@ -9,6 +9,7 @@ import { TemplateModule } from './template/template.module';
 import { IntegrationModule } from './integration/integration.module';
 import { UserModule } from './user/user.module';
 import { FigmaIntegrationModule } from './figma-integration/figma-integration.module';
+import { GithubModule } from './github/github.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { FigmaIntegrationModule } from './figma-integration/figma-integration.mo
     IntegrationModule,
     UserModule,
     FigmaIntegrationModule,
+    GithubModule,
   ],
   controllers: [AppController],
   providers: [AppService],
