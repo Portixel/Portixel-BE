@@ -22,20 +22,20 @@ model WaitList {
 }
 
 model User {
-  id                Int                 @id @default(autoincrement())
+  id                Int                @id @default(autoincrement())
   name              String?
-  email_address     String?             @unique
+  email_address     String?            @unique
   password          String?
-  authMethod        TypeOfLogin         @default(PLAIN)
-  wallet_address    String?             @unique
-  active            Boolean             @default(false)
+  authMethod        TypeOfLogin        @default(PLAIN)
+  wallet_address    String?            @unique
+  active            Boolean            @default(false)
   otp               String?
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
   integrations      Integration[]
   templates         Template[]
   FigmaIntegration  FigmaIntegration?
-  GithubIntegration GithubIntegration[]
+  GithubIntegration GithubIntegration?
 }
 
 model Integration {
@@ -59,15 +59,15 @@ model FigmaIntegration {
   figmaState        String?
   integration       Integration @relation(fields: [integrationId], references: [id])
   integrationId     Int
-  user              User?       @relation(fields: [userId], references: [id]) // Ensure this is one-to-one
+  user              User?       @relation(fields: [userId], references: [id])
   userId            Int?        @unique
 }
 
 model GithubIntegration {
   id                Int         @id @default(autoincrement())
   githubAccessToken String?
-  user              User        @relation(fields: [userId], references: [id])
-  userId            Int
+  user              User?       @relation(fields: [userId], references: [id])
+  userId            Int         @unique
   integration       Integration @relation(fields: [integrationId], references: [id])
   integrationId     Int
   createdAt         DateTime?   @default(now())
