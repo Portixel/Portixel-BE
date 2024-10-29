@@ -73,7 +73,7 @@ export class FigmaIntegrationService {
         },
       );
 
-      if (res.status === 200) {
+      if (res.status === 200 || res.status === 201) {
         const { access_token, refresh_token, user_id, expires_in } = res.data;
 
         await this.prisma.user.update({
