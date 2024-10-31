@@ -24,4 +24,33 @@ export class FilesService {
       throw error;
     }
   }
+
+  async getSingleProjectFile(id: number) {
+    return await this.prisma.files.findFirst({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async getAllProjectFiles(userId: number) {
+    return await this.prisma.files.findMany({
+      where: {
+        userId,
+      },
+    });
+  }
+
+  async deleteSingleFile(id: number) {
+    await this.prisma.files.delete({
+      where: {
+        id,
+      },
+    });
+
+    return {
+      message: 'Project file deleted successfully',
+      statusCode: HttpStatus.OK,
+    };
+  }
 }

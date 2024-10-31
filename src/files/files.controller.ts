@@ -1,6 +1,9 @@
 import {
   Controller,
+  Delete,
+  Get,
   HttpException,
+  Param,
   Post,
   UploadedFiles,
   UseInterceptors,
@@ -53,5 +56,21 @@ export class FilesController {
     }
   }
 
+  //get single file
+  @Get(':id')
+  async getSingleProjectFile(@Param('id') id: number) {
+    return await this.file.getSingleProjectFile(id);
+  }
+
   //get all files
+  @Get('')
+  async getAllProjectFiles(@GetUser() { id }: User) {
+    return await this.file.getAllProjectFiles(id);
+  }
+
+  //delete single file
+  @Delete(':id')
+  async deleteSingleFile(@Param('id') id: number) {
+    return await this.file.deleteSingleFile(id);
+  }
 }
