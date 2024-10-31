@@ -36,6 +36,7 @@ model User {
   templates         Template[]
   FigmaIntegration  FigmaIntegration?
   GithubIntegration GithubIntegration?
+  files             Files[]
 }
 
 model Integration {
@@ -79,6 +80,15 @@ model Template {
   template_key String
   user         User   @relation(fields: [userId], references: [id])
   userId       Int
+}
+
+model Files {
+  id        Int       @id @default(autoincrement())
+  file      String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
 }
 
 enum TypeOfLogin {

@@ -10,6 +10,9 @@ import { IntegrationModule } from './integration/integration.module';
 import { UserModule } from './user/user.module';
 import { FigmaIntegrationModule } from './figma-integration/figma-integration.module';
 import { GithubModule } from './github/github.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { FilesController } from './files/files.controller';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -22,8 +25,10 @@ import { GithubModule } from './github/github.module';
     UserModule,
     FigmaIntegrationModule,
     GithubModule,
+    CloudinaryModule,
+    FilesModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, FilesController],
   providers: [AppService],
 })
 export class AppModule {}
