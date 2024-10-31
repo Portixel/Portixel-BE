@@ -4,6 +4,6 @@ import { FigmaIntegrationController } from './figma-integration.controller';
 
 @Module({
   providers: [FigmaIntegrationService],
-  controllers: [FigmaIntegrationController]
+  controllers: [FigmaIntegrationController],
 })
 export class FigmaIntegrationModule {}
